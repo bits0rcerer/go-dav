@@ -16,7 +16,7 @@ const (
 	RootDirKey   = "GODAV_ROOT"
 	URLPrefixKey = "GODAV_PREFIX"
 	NoAuthKey    = "GODAV_NO_AUTH"
-	BindKey      = "GODAV_BIND"
+	PortKey      = "PORT"
 
 	UserKeyPrefix = "GODAV_USER_"
 )
@@ -145,11 +145,11 @@ func main() {
 		),
 	)
 
-	addr := os.Getenv(BindKey)
-	if addr == "" {
-		addr = ":8080"
+	port := os.Getenv(PortKey)
+	if port == "" {
+		port = "8080"
 	}
 
-	log.Println("[*] Listening on", addr)
-	log.Panicln(http.ListenAndServe(":8080", mux))
+	log.Println("[*] Listening on", ":"+port)
+	log.Panicln(http.ListenAndServe(":"+port, mux))
 }
