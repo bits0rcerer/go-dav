@@ -79,7 +79,7 @@ func auth(noAuth bool, userMap map[string][]byte, onSuccess http.HandlerFunc) ht
 	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("WWW-Authenticate", "Basic")
+		w.Header().Set("WWW-Authenticate", "Basic realm=godav")
 
 		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" || !strings.HasPrefix(authHeader, "Basic ") {
