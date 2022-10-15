@@ -38,13 +38,13 @@ func parseUsers() map[string][]byte {
 
 		user := strings.TrimPrefix(key, UserKeyPrefix)
 		if user == "" {
-			log.Panicln("empty user is not allowed -> ", env)
+			log.Panicln("empty user is not allowed ->", env)
 		}
 
 		var err error
 		userMap[user], err = hex.DecodeString(password)
 		if err != nil {
-			log.Panicln("invalid user pass hash -> ", env)
+			log.Panicln("invalid user pass hash ->", env)
 		}
 	}
 
@@ -70,12 +70,12 @@ func compareBytes(a, b []byte) bool {
 
 func auth(noAuth bool, userMap map[string][]byte, onSuccess http.HandlerFunc) http.HandlerFunc {
 	if noAuth {
-		log.Println("[!!!] Running WITHOUT authorization. Make sure you know what you are doing.")
+		log.Println("[!] Running WITHOUT authorization. Make sure you know what you are doing.")
 		return onSuccess
 	}
 
 	if len(userMap) == 0 {
-		log.Println("[!!!] Running WITHOUT any allowed users.")
+		log.Println("[!] Running WITHOUT any allowed users.")
 	}
 
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -115,16 +115,16 @@ func auth(noAuth bool, userMap map[string][]byte, onSuccess http.HandlerFunc) ht
 type RecoveryLogger struct{}
 
 func (receiver RecoveryLogger) Println(errs ...interface{}) {
-	log.Println("[!] handler panicked on: ")
+	log.Println("[!] handler panicked on:")
 	for i, err := range errs {
-		log.Printf("\t#%03d\t%v", i, err)
+		log.Printf("\t#%03d\t%v\n", i, err)
 	}
 }
 
 func main() {
 	rootPath := os.Getenv(RootDirKey)
 	if rootPath == "" {
-		log.Panicln("$", RootDirKey, " is not set")
+		log.Panicf("[!] $%s is not set. Consider $%s=/data when using Docker\n", RootDirKey, RootDirKey)
 	}
 
 	davHandler := webdav.Handler{
@@ -150,5 +150,6 @@ func main() {
 		addr = ":8080"
 	}
 
+	log.Println("[*] Listening on", addr)
 	log.Panicln(http.ListenAndServe(":8080", mux))
 }
