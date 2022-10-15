@@ -20,5 +20,4 @@ RUN chown -R 9999:9999 /app && \
 WORKDIR /app
 USER godav
 
-EXPOSE 8080
 CMD /app/godav
