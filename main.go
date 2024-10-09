@@ -4,12 +4,13 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/hex"
-	"github.com/gorilla/handlers"
-	"golang.org/x/net/webdav"
 	"log"
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/gorilla/handlers"
+	"golang.org/x/net/webdav"
 )
 
 const (
